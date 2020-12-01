@@ -20,12 +20,17 @@ file.on('close', () => {
     for (let j = 0; j < lines.length; j++) {
       const secondNumber = parseInt(lines[j]);
 
-      if (i !== j) {
-        if (firstNumber + secondNumber === 2020) {
-          console.log(firstNumber * secondNumber);
-          return;
+      for (let k = 0; k < lines.length; k++) {
+        const thirdNumber = parseInt(lines[k]);
+        
+        if (i !== j && i !== k && j !== k ) {
+          if (firstNumber + secondNumber + thirdNumber === 2020) {
+            console.log(firstNumber * secondNumber * thirdNumber);
+            return;
+          }
         }
       }
+
 
     }
   }
