@@ -5,7 +5,6 @@ const day05 = () => {
 
     const partOne = () => {
 
-
         let highestId = 0;
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
@@ -26,6 +25,32 @@ const day05 = () => {
         return highestId;
     }
 
+    const partTwo = () => {
+
+        let seatIds = [];
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+
+            const seatRowCommands = row.split('').filter((e, i) => i < 7);
+            const seatColumnsCommands = row.split('').filter((e, i) => i > 6);
+
+            let seatRow = getPositionInRangeByCommands(0, 127, seatRowCommands);
+            let seatColumn = getPositionInRangeByCommands(0, 7, seatColumnsCommands);
+
+            let seatId = seatRow * 8 + seatColumn;
+
+            seatIds.push(seatId);
+        }
+
+        const sortedSeatIds = seatIds.sort((a, b) => a - b);
+
+        const nopreviousSeats = sortedSeatIds.filter((e, i) => e - 1 !== sortedSeatIds[i - 1]);
+
+        const searchedSeatId = nopreviousSeats.find(e => e !== sortedSeatIds[0]) - 1;
+
+        return searchedSeatId;
+    }
+
     const getPositionInRangeByCommands = (rangeStart, rangeEnd, commands) => {
         let first = rangeStart;
         let last = rangeEnd;
@@ -44,6 +69,7 @@ const day05 = () => {
     }
 
     console.log('Part One', partOne());
+    console.log('Part Two', partTwo());
 }
 
 day05();
