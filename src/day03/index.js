@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 
 const day03 = () => {
-  const rows = readFileSync('input.txt', 'utf8').split('\n');
+  const rows = readFileSync('input.txt', 'utf8').split(/\r?\n/);
 
   const partOne = () => {
     let position = 0;
@@ -10,15 +10,12 @@ const day03 = () => {
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i];
 
-      while (row.length <= position) {
-        row += row;
-      }
-
       if (row.charAt(position) === '#') {
         treeCount += 1;
       }
 
       position += 3;
+      position = position >= row.length ? position % row.length : position;
     }
 
     return treeCount;
@@ -32,21 +29,17 @@ const day03 = () => {
     for (let i = 0; i < slopes.length; i++) {
       let [stepGap, rowGap] = slopes[i];
       let position = 0;
-      console.log(stepGap, rowGap);
 
       for (let j = 0; j < rows.length; j += rowGap) {
         let row = rows[j];
-        console.log(row);
-
-        while (row.length <= position) {
-          row += row;
-        }
 
         if (row.charAt(position) === '#') {
           treesPerSlope += 1;
         }
 
         position += stepGap;
+        position = position >= row.length ? position % row.length : position;
+
       }
 
       treesMultiplied = treesMultiplied * treesPerSlope;
