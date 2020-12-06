@@ -1,35 +1,29 @@
 import { readFileSync } from 'fs';
 
 const day04 = () => {
-    const rows = readFileSync('input.txt', 'utf8').split(/\r?\n/);
+    const passportRaw = readFileSync('input.txt', 'utf8').split(/\r?\n\r?\n/);
 
     const partOne = () => {
         const requiredFields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid'];
 
-        let passportData = '';
         let validCount = 0;
 
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            passportData += ' ' + row;
+        for (let i = 0; i < passportRaw.length; i++) {
+            const passport = passportRaw[i].replace(/\r?\n/, ' ');
 
-            if (row === '' || i === rows.length - 1) {
-                let allRequiredMatched = true;
+            let allRequiredMatched = true;
 
-                for (let j = 0; j < requiredFields.length; j++) {
-                    const field = requiredFields[j];
+            for (let j = 0; j < requiredFields.length; j++) {
+                const field = requiredFields[j];
 
-                    const searchPattern = new RegExp("" + field + ":\\S+", "g");
-                    if (!passportData.match(searchPattern)) {
-                        allRequiredMatched = false;
-                    }
+                const searchPattern = new RegExp("" + field + ":\\S+", "g");
+                if (!passport.match(searchPattern)) {
+                    allRequiredMatched = false;
                 }
+            }
 
-                if (allRequiredMatched) {
-                    validCount += 1;
-                }
-
-                passportData = '';
+            if (allRequiredMatched) {
+                validCount += 1;
             }
         }
 
@@ -66,33 +60,27 @@ const day04 = () => {
                 field: 'pid',
                 pattern: /pid:(\d{9})(\s|$)/
             }];
-    
-        let passportData = '';
+
         let validCount = 0;
-    
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            passportData += ' ' + row;
-    
-            if (row === '' || i === rows.length - 1) {
-                let allRequiredMatched = true;
 
-                for (let j = 0; j < requiredFields.length; j++) {
-                    const pattern = requiredFields[j].pattern;
+        for (let i = 0; i < passportRaw.length; i++) {
+            const passport = passportRaw[i].replace(/\r?\n/, ' ');
 
-                    if (!passportData.match(pattern)) {
-                        allRequiredMatched = false;
-                    }
+            let allRequiredMatched = true;
+
+            for (let j = 0; j < requiredFields.length; j++) {
+                const pattern = requiredFields[j].pattern;
+
+                if (!passport.match(pattern)) {
+                    allRequiredMatched = false;
                 }
-    
-                if (allRequiredMatched) {
-                    validCount += 1;
-                }
-    
-                passportData = '';
+            }
+
+            if (allRequiredMatched) {
+                validCount += 1;
             }
         }
-    
+
         return validCount;
     }
 
